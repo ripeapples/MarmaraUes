@@ -29,11 +29,9 @@ namespace Connect_Ues
             {
                 try
                 {
-                    // WebSocket'e bağlan
                     await webSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
                     Console.WriteLine($"Bağlantı başarılı: {uri}");
 
-                    // İletişim tasklerini başlat
                     Task receiveTask = ReceiveMessagesAsync(webSocket);
                     Task sendTask = SendMessagesAsync(webSocket);
 
@@ -77,7 +75,6 @@ namespace Connect_Ues
           
             string vClass_id = uesUser.virtual_class_id[1].Split(':')[1];
 
-            // Kullanıcıdan mesaj al
             string jsonMessage = "{\"type\":\"CORE:RT_SERVER_JOINING\",\"user\":null,\"token\":\"" + uesUser.access_token + "\",\"dropOtherClient\":false,\"timestamp\":" + timestampInMilliseconds + ",\"groupId\":null,\"sessionId\":\""+ vClass_id + "\",\"from\":"+uesUser.user_id+"}";
             byte[] bytes = Encoding.UTF8.GetBytes(jsonMessage);
             await webSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
